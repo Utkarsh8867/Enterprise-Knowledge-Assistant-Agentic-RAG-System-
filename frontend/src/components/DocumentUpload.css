@@ -1,0 +1,97 @@
+.document-upload-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: #2d3748;
+    margin-bottom: 1rem;
+}
+
+.upload-area {
+    border: 2px dashed #cbd5e0;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.upload-area:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.upload-area.drag-active {
+    border-color: #667eea;
+    background: #edf2f7;
+}
+
+.file-input {
+    display: none;
+}
+
+.upload-label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.upload-icon {
+    color: #667eea;
+}
+
+.upload-text {
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+.upload-text strong {
+    color: #667eea;
+}
+
+.upload-hint {
+    color: #a0aec0;
+    font-size: 0.85rem;
+}
+
+.upload-status {
+    margin-top: 1rem;
+    padding: 0.875rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+.upload-status.success {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    color: #166534;
+}
+
+.upload-status.error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+}
+
+.status-message {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.status-details {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    opacity: 0.8;
+}
