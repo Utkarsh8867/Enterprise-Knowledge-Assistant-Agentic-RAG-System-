@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     upload_dir: str = "./data/uploads"
     
     # LLM Settings
-    primary_model: str = "llama-3.1-70b-versatile"
+    primary_model: str = "llama-3.3-70b-versatile"
     fallback_model: str = "llama-3.1-8b-instant"
     
     # Retrieval Settings

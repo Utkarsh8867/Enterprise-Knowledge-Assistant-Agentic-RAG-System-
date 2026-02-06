@@ -21,9 +21,9 @@ app.add_middleware(
 )
 
 # Initialize components
-rag_graph = create_rag_graph()
 doc_processor = DocumentProcessor()
 vector_store = VectorStore()
+rag_graph = create_rag_graph(vector_store)
 
 os.makedirs(settings.upload_dir, exist_ok=True)
 

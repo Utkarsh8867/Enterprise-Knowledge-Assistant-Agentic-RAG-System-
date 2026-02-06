@@ -16,9 +16,9 @@ settings = get_settings()
 class AgentOrchestrator:
     """Manages all agents in the RAG pipeline"""
     
-    def __init__(self):
+    def __init__(self, vector_store):
         self.client = Groq(api_key=settings.groq_api_key)
-        self.vector_store = VectorStore()
+        self.vector_store = vector_store
     
     def query_planner_agent(self, state: RAGState) -> RAGState:
         """Agent 1: Decompose query into structured intent"""

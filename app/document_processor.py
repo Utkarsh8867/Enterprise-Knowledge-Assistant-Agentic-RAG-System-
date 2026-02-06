@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from typing import List
-import fitz  # PyMuPDF
+from pypdf import PdfReader
 from docx import Document
 from pathlib import Path
 from app.models import DocumentChunk, DocumentMetadata
@@ -49,10 +49,10 @@ class DocumentProcessor:
     
     def _extract_pdf(self, file_path: str) -> str:
         """Extract text from PDF"""
-        doc = fitz.open(file_path)
+        reader = PdfReader(file_path)
         text = ""
-        for page in doc:
-            text += page.get_text()
+        for page in reader.pages:
+            text += page.extract_text()
         return text
     
     def _extract_docx(self, file_path: str) -> str:

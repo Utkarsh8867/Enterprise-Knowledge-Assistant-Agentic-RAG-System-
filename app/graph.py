@@ -2,10 +2,10 @@ from langgraph.graph import StateGraph, END
 from app.models import RAGState
 from app.agents import AgentOrchestrator
 
-def create_rag_graph():
+def create_rag_graph(vector_store):
     """Build the LangGraph workflow for agentic RAG"""
     
-    orchestrator = AgentOrchestrator()
+    orchestrator = AgentOrchestrator(vector_store)
     
     # Initialize graph
     workflow = StateGraph(RAGState)
