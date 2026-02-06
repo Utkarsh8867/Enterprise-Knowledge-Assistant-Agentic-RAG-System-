@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
