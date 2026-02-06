@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import ChatInterface from './components/ChatInterface';
-import DocumentUpload from './components/DocumentUpload';
-import SystemStats from './components/SystemStats';
+import ChatInterface from './components/ChatInterface.jsx';
+import DocumentUpload from './components/DocumentUpload.jsx';
+import SystemStats from './components/SystemStats.jsx';
 import { getHealth, getMetrics } from './services/api';
 
 function App() {
