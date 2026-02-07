@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Upload, FileText, CheckCircle, XCircle, Loader } from 'lucide-react';
+import { Upload, FolderOpen, CheckCircle, XCircle, Loader, FileText } from 'lucide-react';
 import { uploadDocument } from '../services/api';
 import './DocumentUpload.css';
 
@@ -41,7 +41,8 @@ const DocumentUpload = ({ onUploadSuccess }) => {
         if (!validTypes.includes(file.type)) {
             setUploadStatus({
                 success: false,
-                message: 'Please upload PDF, DOCX, or TXT files only'
+                message: 'Invalid file type',
+                details: 'Please upload PDF, DOCX, or TXT files only'
             });
             return;
         }
@@ -54,7 +55,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
             setUploadStatus({
                 success: true,
                 message: `Successfully uploaded ${response.filename}`,
-                details: `Created ${response.chunks_created} chunks`
+                details: `Created ${response.chunks_created} chunks for processing`
             });
             if (onUploadSuccess) {
                 onUploadSuccess();
@@ -63,7 +64,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
             setUploadStatus({
                 success: false,
                 message: 'Upload failed',
-                details: error.message
+                details: error.message || 'Please try again'
             });
         } finally {
             setUploading(false);
@@ -73,7 +74,9 @@ const DocumentUpload = ({ onUploadSuccess }) => {
     return (
         <div className="document-upload-card">
             <h3 className="card-title">
-                <FileText size={20} />
+                <div className="card-title-icon">
+                    <FileText size={20} />
+                </div>
                 Upload Documents
             </h3>
 
@@ -96,17 +99,29 @@ const DocumentUpload = ({ onUploadSuccess }) => {
 
                 <label htmlFor="file-upload" className="upload-label">
                     {uploading ? (
-                        <>
-                            <Loader className="upload-icon spinner" size={40} />
-                            <p>Uploading...</p>
-                        </>
+                        <div className="upload-loading">
+                            <div className="upload-spinner"></div>
+                            <p className="upload-text">Processing your document...</p>
+                            <div className="upload-progress">
+                                <div className="upload-progress-bar"></div>
+                            </div>
+                        </div>
                     ) : (
                         <>
-                            <Upload className="upload-icon" size={40} />
+                            <div className="upload-icon-wrapper">
+                                <Upload className="upload-icon" size={28} />
+                            </div>
                             <p className="upload-text">
                                 <strong>Click to upload</strong> or drag and drop
                             </p>
-                            <p className="upload-hint">PDF, DOCX, or TXT files</p>
+                            <p className="upload-hint">
+                                Supported formats
+                            </p>
+                            <div className="file-types">
+                                <span className="file-type-badge">PDF</span>
+                                <span className="file-type-badge">DOCX</span>
+                                <span className="file-type-badge">TXT</span>
+                            </div>
                         </>
                     )}
                 </label>
@@ -114,12 +129,14 @@ const DocumentUpload = ({ onUploadSuccess }) => {
 
             {uploadStatus && (
                 <div className={`upload-status ${uploadStatus.success ? 'success' : 'error'}`}>
-                    {uploadStatus.success ? (
-                        <CheckCircle size={18} />
-                    ) : (
-                        <XCircle size={18} />
-                    )}
-                    <div>
+                    <div className="status-icon">
+                        {uploadStatus.success ? (
+                            <CheckCircle size={20} />
+                        ) : (
+                            <XCircle size={20} />
+                        )}
+                    </div>
+                    <div className="status-content">
                         <p className="status-message">{uploadStatus.message}</p>
                         {uploadStatus.details && (
                             <p className="status-details">{uploadStatus.details}</p>

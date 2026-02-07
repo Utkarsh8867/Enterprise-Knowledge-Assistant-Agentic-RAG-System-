@@ -1,17 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Loader } from 'lucide-react';
+import { Send, Bot, Lightbulb, TrendingUp, AlertCircle, CheckCircle2, BookOpen } from 'lucide-react';
 import { askQuestion } from '../services/api';
 import './ChatInterface.css';
 
 const ChatInterface = () => {
-    const [messages, setMessages] = useState([
-        {
-            type: 'assistant',
-            content: 'Hello! I\'m your Enterprise Knowledge Assistant. Upload documents and ask me questions about them.',
-            confidence: null,
-            sources: []
-        }
-    ]);
+    const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
@@ -61,14 +54,39 @@ const ChatInterface = () => {
     };
 
     const getConfidenceLabel = (confidence) => {
-        if (confidence >= 0.85) return 'High';
-        if (confidence >= 0.7) return 'Medium';
-        return 'Low';
+        if (confidence >= 0.85) return 'High Confidence';
+        if (confidence >= 0.7) return 'Medium Confidence';
+        return 'Low Confidence';
+    };
+
+    const getConfidenceIcon = (confidence) => {
+        if (confidence >= 0.85) return <CheckCircle2 className="confidence-icon" />;
+        if (confidence >= 0.7) return <TrendingUp className="confidence-icon" />;
+        return <AlertCircle className="confidence-icon" />;
     };
 
     return (
         <div className="chat-interface">
+            <div className="chat-header">
+                <div className="chat-title">
+                    <div className="chat-title-icon">
+                        <Bot size={20} />
+                    </div>
+                    <span>AI Assistant</span>
+                </div>
+            </div>
+
             <div className="chat-messages">
+                {messages.length === 0 && (
+                    <div className="welcome-message">
+                        <div className="welcome-icon">
+                            <Lightbulb size={40} />
+                        </div>
+                        <h3>Welcome to Your Knowledge Assistant</h3>
+                        <p>Upload documents and ask me anything. I'll provide accurate answers with sources and confidence scores.</p>
+                    </div>
+                )}
+
                 {messages.map((message, index) => (
                     <div key={index} className={`message ${message.type}`}>
                         <div className="message-content">
@@ -80,12 +98,16 @@ const ChatInterface = () => {
                                         className="confidence-badge"
                                         style={{ backgroundColor: getConfidenceColor(message.confidence) }}
                                     >
-                                        {getConfidenceLabel(message.confidence)} Confidence: {(message.confidence * 100).toFixed(0)}%
+                                        {getConfidenceIcon(message.confidence)}
+                                        <span>{getConfidenceLabel(message.confidence)}: {(message.confidence * 100).toFixed(0)}%</span>
                                     </div>
 
                                     {message.sources && message.sources.length > 0 && (
                                         <div className="sources">
-                                            <strong>Sources:</strong>
+                                            <strong>
+                                                <BookOpen size={16} />
+                                                Sources Referenced
+                                            </strong>
                                             <ul>
                                                 {message.sources.map((source, idx) => (
                                                     <li key={idx}>{source}</li>
@@ -103,8 +125,12 @@ const ChatInterface = () => {
                     <div className="message assistant">
                         <div className="message-content">
                             <div className="typing-indicator">
-                                <Loader className="spinner" size={20} />
-                                <span>Thinking...</span>
+                                <div className="typing-dots">
+                                    <div className="typing-dot"></div>
+                                    <div className="typing-dot"></div>
+                                    <div className="typing-dot"></div>
+                                </div>
+                                <span>AI is thinking...</span>
                             </div>
                         </div>
                     </div>
@@ -127,7 +153,8 @@ const ChatInterface = () => {
                     disabled={loading || !input.trim()}
                     className="send-button"
                 >
-                    <Send size={20} />
+                    <Send size={18} />
+                    <span>Send</span>
                 </button>
             </form>
         </div>

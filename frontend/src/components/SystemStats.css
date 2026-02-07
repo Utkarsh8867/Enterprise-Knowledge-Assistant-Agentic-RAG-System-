@@ -1,8 +1,19 @@
 .system-stats-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-xl);
+    padding: 1.75rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    animation: slideIn 0.5s ease-out;
+}
+
+.system-stats-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 .stats-grid {
@@ -15,79 +26,261 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.75rem;
-    background: #f7fafc;
-    border-radius: 8px;
-    transition: all 0.2s;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--primary-gradient);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
 }
 
 .stat-item:hover {
-    background: #edf2f7;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-hover);
     transform: translateX(4px);
 }
 
+.stat-item:hover::before {
+    transform: scaleY(1);
+}
+
 .stat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    opacity: 0.2;
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
 }
 
 .stat-content {
     flex: 1;
+    min-width: 0;
 }
 
 .stat-label {
     font-size: 0.8rem;
-    color: #718096;
-    margin-bottom: 0.25rem;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
 }
 
 .stat-value {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #2d3748;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .model-name {
     font-size: 0.85rem;
     font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
 }
 
 .status-healthy {
-    color: #10b981;
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
 }
 
 .status-error {
-    color: #ef4444;
+    color: var(--error);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
 }
 
+.status-pulse {
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+    animation: statusPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 10px currentColor;
+}
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 0.7;
+    }
+}
+
+/* Metrics Details */
 .metrics-details {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--border-color);
 }
 
 .metrics-details h4 {
-    font-size: 0.9rem;
-    color: #4a5568;
-    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.metrics-icon {
+    width: 20px;
+    height: 20px;
+    background: var(--primary-gradient);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
 }
 
 .metric-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0;
-    font-size: 0.85rem;
-    color: #718096;
+    padding: 0.75rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.metric-row:last-child {
+    border-bottom: none;
+}
+
+.metric-row:hover {
+    color: var(--text-primary);
+    padding-left: 0.5rem;
+}
+
+.metric-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .metric-value {
-    font-weight: 600;
-    color: #2d3748;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+}
+
+/* Performance Indicator */
+.performance-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.performance-fill {
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+/* Loading State */
+.stats-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.stats-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(102, 126, 234, 0.1);
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .system-stats-card {
+        padding: 1.5rem;
+    }
+
+    .stat-item {
+        padding: 0.875rem;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .stat-value {
+        font-size: 1rem;
+    }
 }
